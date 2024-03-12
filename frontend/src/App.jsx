@@ -1,10 +1,14 @@
-import "./App.css";
+import Header from "./components/Header";
+import Home from "./screens/Home.screens";
 
 function App() {
   return (
-    <>
-      <p className="">Welcome to our e-platform</p>
-    </>
+    <div className="">
+      <Header />
+      <div className="padding">
+        <Home />
+      </div>
+    </div>
   );
 }
 
