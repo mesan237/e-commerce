@@ -1,35 +1,23 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardImage,
-  CardTitle,
-} from "@/components/ui/card";
-import { products } from "@/constants/Products";
+import { useEffect, useState } from "react";
+
+import CardComponent from "@/components/Card.component";
 
 const Home = () => {
-  console.log(products[1].image);
-  return (
-    <>
-      {products.map((product) => (
-        <Card className="" key={product._id}>
-          <CardHeader>
-            <CardTitle>{product.name}</CardTitle>
-            <CardImage src={product.image} alt={product.name} />
+  const [products, setProducts] = useState([]);
 
-            <CardDescription>{product.description}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>{product.price}</p>
-          </CardContent>
-          <CardFooter>
-            <p>{product.numReviews}</p>
-          </CardFooter>
-        </Card>
+  useEffect(() => {
+    fetch("http://localhost:8000/api/products")
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.log(error));
+  }, []);
+
+  return (
+    <div className="flex gap-10 flex-wrap">
+      {products.map((product) => (
+        <CardComponent key={product._id} product={product} />
       ))}
-    </>
+    </div>
   );
 };
 

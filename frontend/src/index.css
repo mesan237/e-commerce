@@ -131,7 +131,7 @@
   }
 
   .h1 {
-    @apply text-primary font-black md:text-[50px] sm:text-[40px]  text-[30px];
+    @apply text-primary font-monoton md:text-[40px] sm:text-[30px]  text-[20px];
   }
 
   .h2 {

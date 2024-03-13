@@ -1,12 +1,13 @@
+import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
-import Home from "./screens/Home.screens";
 
 function App() {
   return (
     <div className="">
       <Header />
       <div className="padding">
-        <Home />
+        <h2 className="h2">Produits récents</h2>
+        <Outlet />
       </div>
     </div>
   );
