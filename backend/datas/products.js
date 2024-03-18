@@ -1,6 +1,5 @@
 export const products = [
   {
-    _id: "1",
     name: "Arduino Uno R3",
     image: "/src/assets/images/arduino.png",
     description:
@@ -8,12 +7,11 @@ export const products = [
     brand: "Arduino",
     category: "Microcontroller",
     price: 1000,
-    stock: 100,
+    countInStock: 100,
     rating: 4.5,
     numReviews: 12,
   },
   {
-    _id: "2",
     name: "Raspberry Pi 4 Model B",
     image: "/src/assets/images/raspberry-pi.jpeg",
     description:
@@ -21,12 +19,11 @@ export const products = [
     brand: "Raspberry Pi",
     category: "Single-board Computer",
     price: 3500,
-    stock: 50,
+    countInStock: 50,
     rating: 4.8,
     numReviews: 18,
   },
   {
-    _id: "3",
     name: "ESP8266 NodeMCU",
     image: "/src/assets/images/esp32.jpg",
     description:
@@ -34,12 +31,11 @@ export const products = [
     brand: "Espressif Systems",
     category: "Microcontroller with Wi-Fi",
     price: 500,
-    stock: 200,
+    countInStock: 200,
     rating: 3.3,
     numReviews: 20,
   },
   {
-    _id: "4",
     name: "DHT22 Temperature and Humidity Sensor",
     image: "/src/assets/images/servo-motor.jpeg",
     description:
@@ -47,12 +43,11 @@ export const products = [
     brand: "Adafruit",
     category: "Sensor",
     price: 250,
-    stock: 150,
+    countInStock: 150,
     rating: 4.6,
     numReviews: 15,
   },
   {
-    _id: "5",
     name: "HC-SR04 Ultrasonic Sensor",
     image: "/src/assets/images/esp32.jpg",
     description:
@@ -60,12 +55,11 @@ export const products = [
     brand: "Generic",
     category: "Sensor",
     price: 150,
-    stock: 100,
+    countInStock: 100,
     rating: 3.2,
     numReviews: 10,
   },
   {
-    _id: "6",
     name: "MQ-2 Gas Sensor",
     image: "/src/assets/images/raspberry-pi.jpeg",
     description:
@@ -73,12 +67,11 @@ export const products = [
     brand: "Generic",
     category: "Sensor",
     price: 300,
-    stock: 120,
+    countInStock: 120,
     rating: 4.0,
     numReviews: 8,
   },
   {
-    _id: "7",
     name: "NEO-6M GPS Module",
     image: "/src/assets/images/raspb-4.png",
     description:
@@ -86,12 +79,11 @@ export const products = [
     brand: "U-blox",
     category: "Module",
     price: 1200,
-    stock: 80,
+    countInStock: 80,
     rating: 3,
     numReviews: 14,
   },
   {
-    _id: "8",
     name: "BMP280 Barometric Pressure Sensor",
     image: "/src/assets/images/servo-motor.jpeg",
     description:
@@ -99,12 +91,11 @@ export const products = [
     brand: "Bosch",
     category: "Sensor",
     price: 400,
-    stock: 150,
+    countInStock: 150,
     rating: 4.5,
     numReviews: 12,
   },
   {
-    _id: "9",
     name: "RFID RC522 Reader/Writer",
     image: "/src/assets/images/arduino.png",
     description:
@@ -112,12 +103,11 @@ export const products = [
     brand: "Generic",
     category: "Module",
     price: 450,
-    stock: 110,
+    countInStock: 110,
     rating: 4.1,
     numReviews: 9,
   },
   {
-    _id: "10",
     name: "L298N Motor Driver",
     image: "/src/assets/images/servo-motor.jpeg",
     description:
@@ -125,7 +115,7 @@ export const products = [
     brand: "Generic",
     category: "Module",
     price: 350,
-    stock: 90,
+    countInStock: 90,
     rating: 4.4,
     numReviews: 11,
   },

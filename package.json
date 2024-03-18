@@ -9,14 +9,18 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "npm run start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder.js",
+    "data:destroy": "node backend/seeder.js -d"
   },
   "author": "Abed Nego",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.18.3"
+    "express": "^4.18.3",
+    "mongoose": "^8.2.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

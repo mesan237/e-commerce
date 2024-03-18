@@ -6,7 +6,7 @@ function App() {
     <div className="">
       <Header />
       <div className="padding">
-        <h2 className="h2">Produits récents</h2>
+        <p className="mb-10 font-bold size-[2rem]">Recent products </p>
         <Outlet />
       </div>
     </div>

@@ -25,10 +25,15 @@ const ProductScreen = () => {
       .catch((error) => console.log(error));
   }, [id]);
 
-  // const product = products.find((product) => product._id === id.productId);
-
-  const { stock, rating, numReviews, name, description, price, image } =
-    product;
+  const {
+    stock: countInStock,
+    rating,
+    numReviews,
+    name,
+    description,
+    price,
+    image,
+  } = product;
 
   return (
     <div className="flex gap-8 justify-center">
@@ -54,7 +59,7 @@ const ProductScreen = () => {
         <Separator className="my-2" />
         <CardContent className="flex justify-between">
           <p>Status :</p>
-          {stock > 0 ? (
+          {countInStock > 0 ? (
             <Badge variant="succes">In stock</Badge>
           ) : (
             <Badge variant="wrong">out of stock</Badge>
@@ -62,7 +67,7 @@ const ProductScreen = () => {
         </CardContent>
         <Separator className="my-2" />
         <CardFooter>
-          <Button disabled={!stock}>Add To Cart</Button>
+          <Button disabled={!countInStock}>Add To Cart</Button>
         </CardFooter>
       </Card>
     </div>
