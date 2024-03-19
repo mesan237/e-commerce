@@ -16,6 +16,8 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        notification:
+          " rounded-full p-0 h-4 w-4 bg-destructive justify-center text-destructive-foreground text-[10px] ",
         succes:
           "bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20",
         wrong:

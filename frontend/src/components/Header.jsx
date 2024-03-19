@@ -9,8 +9,13 @@ import { FaUser, FaCartShopping } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 import logo from "../assets/store.png";
+import { useSelector } from "react-redux";
+import { Badge } from "./ui/badge";
 
 const Header = () => {
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  // console.log(cartItems.length, cartItems[0]);
   return (
     <>
       <NavigationMenu className="">
@@ -22,10 +27,13 @@ const Header = () => {
 
             <Link to="/cart">
               <NavigationMenuLink
-                className={`gap-2 ${navigationLinkBtnStyle()}`}
+                className={`gap-1 items-center ${navigationLinkBtnStyle()}`}
               >
                 <FaCartShopping className="text-slate-500" />
                 Cart
+                {cartItems.length > 0 && (
+                  <Badge variant="notification">{cartItems.length}</Badge>
+                )}
               </NavigationMenuLink>
             </Link>
 
