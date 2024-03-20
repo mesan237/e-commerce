@@ -3,7 +3,7 @@ const router = express.Router();
 import {
   getProducts,
   getProductById,
-} from "../controllers/product.cotroller.js";
+} from "../controllers/product.controller.js";
 
 router.route("/").get(getProducts);
 router.route("/:productId").get(getProductById);

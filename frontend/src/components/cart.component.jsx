@@ -32,18 +32,18 @@ const cart = ({ product }) => {
     <>
       <Card
         key={product._id}
-        className="flex h-20 item-center p-2 justify-between"
+        className="flex h-20 items-center p-2 justify-between gap-6"
       >
         <CardHeader className="h-full p-0">
           <CardImage className="h-16" src={product.image} alt={product.name} />
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <CardTitle className="text-[16px] text-wrap w-60">
             {product.name}
           </CardTitle>
         </CardContent>
-        <CardContent> {product.price} FCFA</CardContent>
-        <CardContent>
+        <CardContent className="p-0"> {product.price} FCFA</CardContent>
+        <CardContent className="p-0">
           {
             <Select
               value={product.qty}
@@ -62,7 +62,7 @@ const cart = ({ product }) => {
             </Select>
           }
         </CardContent>
-        <CardFooter>
+        <CardFooter className="p-0">
           <Button
             variant="outline"
             size="icon"

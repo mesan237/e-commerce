@@ -10,10 +10,16 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useSelector } from "react-redux";
 import Cart from "../components/cart.component";
+import { useNavigate } from "react-router-dom";
 
 const CartScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+  const navigate = useNavigate();
+
+  const checkoutHandler = () => {
+    navigate("login?redirect=/checkout");
+  };
 
   return (
     <div className="flex gap-6 justify-center items-start">
@@ -50,7 +56,9 @@ const CartScreen = () => {
           <Separator className="my-2" />
 
           <CardFooter>
-            <Button variant="outline">Proceed to checkout</Button>
+            <Button variant="outline" onClick={() => checkoutHandler()}>
+              Proceed to checkout
+            </Button>
           </CardFooter>
         </Card>
       )}

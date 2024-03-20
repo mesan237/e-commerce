@@ -3,13 +3,19 @@ import dotenv from "dotenv";
 dotenv.config();
 import connectdb from "./config/db.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import productRoutes from "./routes/product.routes.js";
+import userRoutes from "./routes/user.routes.js";
 import { notFound, errorHandler } from "./middleware/error.middleware.js";
 connectdb();
 
 const port = process.env.PORT || 5000;
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(cors("http://localhost:3000/"));
 
@@ -18,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
