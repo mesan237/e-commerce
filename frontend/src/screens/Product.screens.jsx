@@ -43,6 +43,7 @@ const ProductScreen = () => {
 
   return (
     <>
+      <p className="mb-4 font-bold h3">Product description</p>
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />

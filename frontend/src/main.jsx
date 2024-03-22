@@ -10,6 +10,10 @@ import Home from "./screens/Home.screens.jsx";
 import ProductScreen from "./screens/Product.screens.jsx";
 import { store } from "./store.js";
 import CartScreen from "./screens/Cart.screens.jsx";
+import LoginForm from "./screens/Login.screen.jsx";
+import RegisterForm from "./screens/Register.screen.jsx";
+import ShippingScreen from "./screens/Shipping.screen.jsx";
+import PrivateRoutes from "./components/PrivateRoutes.component.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +26,26 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "",
+        element: <PrivateRoutes />,
+        children: [
+          {
+            path: "/checkout",
+            element: <ShippingScreen />,
+          },
+        ],
+      },
+      {
         path: "/cart",
         element: <CartScreen />,
+      },
+      {
+        path: "/login",
+        element: <LoginForm />,
+      },
+      {
+        path: "/register",
+        element: <RegisterForm />,
       },
       {
         path: "/product/:productId",

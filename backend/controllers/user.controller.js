@@ -95,7 +95,7 @@ const getUserById = asyncHandler(async (req, res) => {});
 const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
     httpOnly: true,
-    expires: new Date.now(0),
+    expires: new Date(0),
   });
 
   res.status(200).json({
