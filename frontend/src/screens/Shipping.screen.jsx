@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2 } from "lucide-react";
+// import { Loader2 } from "lucide-react";
 
 import { saveShippingAddress } from "@/slices/cart.slice";
 
@@ -26,12 +28,14 @@ const ShippingScreen = () => {
   const {
     handleSubmit,
     formState: { errors },
+    control,
     register,
   } = useForm({
     defaultValues: {
       address: shippingAddress?.address || "",
       city: shippingAddress?.city || "",
-      pc: shippingAddress?.pc || "",
+      postalCode: shippingAddress?.postalCode || "",
+      phone: shippingAddress?.phone || "",
     },
   });
 
@@ -42,7 +46,6 @@ const ShippingScreen = () => {
 
   const onSubmit = (data) => {
     handleCheckout(data);
-    console.log(data);
   };
 
   return (
@@ -89,16 +92,41 @@ const ShippingScreen = () => {
                   )}
                 </div>
                 <div className="relative flex flex-col space-y-1.5">
-                  <Label htmlFor="pc">Postal Code</Label>
+                  <Label htmlFor="postalCode">Postal Code</Label>
                   <Input
-                    {...register("pc", { required: "Postal code is required" })}
-                    id="pc"
+                    {...register("postalCode", {
+                      required: "Postal code is required",
+                    })}
+                    id="postalCode"
                     placeholder="your postal code"
-                    className={errors.pc ? "border-red-500 border-2 " : null}
+                    className={
+                      errors.postalCode ? "border-red-500 border-2 " : null
+                    }
                   />
-                  {errors.pc && (
+                  {errors.postalCode && (
                     <span className=" absolute top-14 right-0 text-[11px] font-semibold text-red-400">
-                      {errors.pc.message}
+                      {errors.postalCode.message}
+                    </span>
+                  )}
+                </div>
+                <div className="relative flex flex-col space-y-1.5">
+                  <Label htmlFor="phone number">Phone number</Label>
+                  <Controller
+                    name="phone"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <PhoneInput
+                        className="number"
+                        country={"cm"}
+                        value={value}
+                        onChange={onChange} // Use onChange from the Controller's field
+                        id="phone"
+                      />
+                    )}
+                  />
+                  {errors.phone && (
+                    <span className=" absolute top-14 right-0 text-[11px] font-semibold text-red-400">
+                      {errors.phone.message}
                     </span>
                   )}
                 </div>

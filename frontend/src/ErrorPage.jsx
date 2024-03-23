@@ -11,7 +11,7 @@ const ErrorPage = () => {
       id="error-page"
       className="flex flex-col justify-center items-center h-screen"
     >
-      <h1 className="h1">Oops!</h1>
+      <h1 className="h1 font-bold">Page not found</h1>
       <p className="h2">{`Sorry, we can't seem to find the page you are looking for!`}</p>
       <p>
         Please check out our
