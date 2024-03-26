@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 
 import { savePaymentMethod } from "@/slices/cart.slice";
 import { useEffect } from "react";
+import Stepper from "@/components/Stepper.component";
 
 const PaymentScreen = () => {
   const cart = useSelector((state) => state.cart);
@@ -19,7 +20,7 @@ const PaymentScreen = () => {
 
   const {
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
     register,
   } = useForm();
 
@@ -40,24 +41,27 @@ const PaymentScreen = () => {
   };
 
   return (
-    <div className="p-7 w-fit mx-auto ">
-      <p className="mb-4 font-bold h3">Payment method</p>
-      <Form>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-fit space-y-6">
-          <p className="h2">Select the method.</p>
-          <RadioGroup
-            defaultValue="paypal"
-            {...register("paymentMethod", { required: true })}
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="paypal" id="paypal" />
-              <Label htmlFor="paypal">Paypal or credit card</Label>
-            </div>
-          </RadioGroup>
-          <Button type="submit">Continue</Button>
-        </form>
-      </Form>
-    </div>
+    <>
+      <Stepper step={3} />
+      <div className="p-7 w-fit mx-auto ">
+        <p className="mb-4 font-bold h3">Payment method</p>
+        <Form>
+          <form onSubmit={handleSubmit(onSubmit)} className="w-fit space-y-6">
+            <p className="h2">Select the method.</p>
+            <RadioGroup
+              defaultValue="paypal"
+              {...register("paymentMethod", { required: true })}
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="paypal" id="paypal" />
+                <Label htmlFor="paypal">Paypal or credit card</Label>
+              </div>
+            </RadioGroup>
+            <Button type="submit">Continue</Button>
+          </form>
+        </Form>
+      </div>
+    </>
   );
 };
 

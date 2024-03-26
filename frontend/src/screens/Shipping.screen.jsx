@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 // import { Loader2 } from "lucide-react";
 
 import { saveShippingAddress } from "@/slices/cart.slice";
+import Stepper from "@/components/Stepper.component";
 
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart);
@@ -51,6 +52,7 @@ const ShippingScreen = () => {
   return (
     <>
       <h1 className="mb-4 font-bold h3 text-center">Shipping</h1>
+      <Stepper step={2} />
       <div className="flex justify-center">
         <Card className="w-[400px]">
           <form onSubmit={handleSubmit(onSubmit)}>

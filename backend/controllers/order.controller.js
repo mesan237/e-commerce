@@ -32,9 +32,13 @@ const addOrdersItems = asyncHandler(async (req, res) => {
       totalPrice,
     });
 
-    const createdOrder = await order.save();
-
-    res.status(201).send(createdOrder);
+    try {
+      const createdOrder = await order.save();
+      // console.log(createdOrder);
+      res.status(201).send(createdOrder);
+    } catch (error) {
+      console.error("Error saving order:", error);
+    }
   }
 });
 
@@ -66,7 +70,24 @@ const getOrderById = asyncHandler(async (req, res) => {
 // @route PUT /api/orders/:orderTd/pay
 // @access Private
 const updateOrderToPaid = asyncHandler(async (req, res) => {
-  res.json("update order to paid");
+  const order = await Order.findById(req.params.orderId);
+
+  if (order) {
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      email_address: req.body.email_address,
+      update_time: req.body.updte_time,
+    };
+
+    const updateOrder = await order.save();
+    res.status(200).json(updateOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
 });
 
 // @desc update order to deliver

@@ -4,7 +4,7 @@ const OrderSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      require: true,
+      required: true,
       ref: "User",
     },
     orderItems: [
@@ -13,13 +13,11 @@ const OrderSchema = mongoose.Schema(
         qty: { type: Number, required: true },
         price: { type: Number, required: true },
         image: { type: String, required: true },
-        product: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            require: true,
-            ref: "Product",
-          },
-        ],
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "Product",
+        },
       },
     ],
     shippingAddress: {

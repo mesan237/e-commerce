@@ -1,3 +1,4 @@
+// import { useState,useEffect } from "react";
 import CardComponent from "@/components/Card.component";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
@@ -7,6 +8,14 @@ import { useGetProductsQuery } from "@/slices/product.api.slice";
 
 const Home = () => {
   const { data: products, error, isLoading } = useGetProductsQuery();
+
+  // const [prod, setProd] = useState([]);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/api/product/", { credentials: "include" })
+  //     .then((response) => response.json())
+  //     .then((data) => setProd(data));
+  // }, []);
 
   // console.log(products && products, "Products");
 

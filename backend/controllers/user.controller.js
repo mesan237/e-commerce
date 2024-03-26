@@ -1,6 +1,5 @@
 import User from "../models/user.model.js";
 import asyncHandler from "../middleware/middleware.js";
-import jwt from "jsonwebtoken";
 import generateToken from "../utils/generate.token.js";
 
 // @desc auth users and get tokens
@@ -111,14 +110,14 @@ const deleteUser = asyncHandler(async (req, res) => {});
 // @access Private
 const updateProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-
   if (user) {
-    user.name = req.user.name || user.name;
-    user.email = req.user.email || user.email;
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
 
     if (req.body.password) {
       user.password = req.body.password;
     }
+    console.log(user);
     const updateUser = await user.save({});
 
     if (updateUser) {
