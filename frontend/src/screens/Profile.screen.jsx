@@ -10,18 +10,35 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 
 import { useUpdateUserProfileMutation } from "@/slices/user.api.slice";
+import { useGetMyOrdersQuery } from "@/slices/order.api.slice";
 import { setCredentials } from "@/slices/auth.slice";
-import { useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { AlertCircle, CircleX, Loader2 } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const {
+    data: orders,
+    isLoading: isLoadingOrder,
+    error,
+  } = useGetMyOrdersQuery();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -41,15 +58,19 @@ const ProfileScreen = () => {
 
   const handleUpdate = async (data) => {
     try {
-      const result = await updateUserProfile(data);
-      console.log(result);
+      const result = await updateUserProfile({
+        _id: userInfo._id,
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
       if (!result.error) {
         toast({
           variant: "success",
           description: "Your profile has been updated",
         });
         dispatch(setCredentials({ ...result.data }));
-        console.log(result.data);
+        // console.log(result.data);
       } else {
         toast({
           variant: "destructive",
@@ -69,8 +90,8 @@ const ProfileScreen = () => {
   };
 
   return (
-    <div>
-      <Card className="w-[400px]">
+    <div className="flex gap-10">
+      <Card className="min-w-[400px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardHeader>
             <CardTitle>Update Profile</CardTitle>
@@ -119,6 +140,32 @@ const ProfileScreen = () => {
                   </span>
                 )} */}
               </div>
+              <div className="relative flex flex-col space-y-1.5">
+                <Label htmlFor="confirm password">Confirm password</Label>
+                <Input
+                  {...register("confPassword", {
+                    validate: (value, data) => {
+                      if (value !== data.password) {
+                        toast({
+                          variant: "destructive",
+                          description:
+                            "The password and the confirm password fields must have the same value",
+                        });
+                        return "Passwords do not match";
+                      }
+                      return true;
+                    },
+                  })}
+                  id="conf-pwd"
+                  type="password"
+                  className={errors.confPassword ? "border-error" : null}
+                />
+                {errors.confPassword && (
+                  <span className=" absolute top-14 right-0 text-error">
+                    {errors.confPassword.message}
+                  </span>
+                )}
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
@@ -129,6 +176,68 @@ const ProfileScreen = () => {
           </CardFooter>
         </form>
       </Card>
+      <div className="w-full">
+        <p className="mb-4 font-bold h2">My orders</p>
+        <Table>
+          <TableCaption>
+            {orders?.length === 0
+              ? `You have no orders.`
+              : `A list of all your orders.`}
+          </TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">ID</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Total (FCFA)</TableHead>
+              <TableHead className="text-center">Paid</TableHead>
+              <TableHead className="text-center">Delivered</TableHead>
+              <TableHead className="text-center"></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>
+                  {error?.data?.message || error.message}
+                </AlertDescription>
+              </Alert>
+            )}
+            {isLoadingOrder && <Spinner> Loading...</Spinner>}
+
+            {orders?.length > 0 &&
+              orders.map((order) => (
+                <TableRow key={order._id}>
+                  <TableCell>{order._id}</TableCell>
+                  <TableCell>
+                    {order.createdAt.toString().substring(0, 10)}
+                  </TableCell>
+                  <TableCell>{order.totalPrice}</TableCell>
+                  <TableCell className="text-center ">
+                    {order.isPaid ? (
+                      order.paidAt?.toString().substring(0, 10)
+                    ) : (
+                      <CircleX className="text-red-400" />
+                    )}
+                  </TableCell>
+                  <TableCell className="flex justify-center">
+                    {order.isDelivered ? (
+                      order.deliveredAt?.toString().substring(0, 10)
+                    ) : (
+                      <CircleX className="text-red-400" />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/order/${order._id}`}>
+                      <Button variant="link">Details</Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

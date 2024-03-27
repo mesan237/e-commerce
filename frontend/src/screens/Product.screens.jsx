@@ -48,7 +48,9 @@ const ProductScreen = () => {
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error.message || error.error}</AlertDescription>
+          <AlertDescription>
+            {error?.data?.message || error.message}
+          </AlertDescription>
         </Alert>
       )}
       {isLoading && <Spinner> Loading...</Spinner>}

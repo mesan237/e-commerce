@@ -47,7 +47,7 @@ const PlaceOrderScreen = () => {
         shippingPrice: cart.shippingPrice,
         totalPrice: cart.totalPrice,
       });
-      console.log(res);
+      // console.log(res);
       if (!res.error) {
         dispatch(clearCartItems());
         navigate(`/order/${res?.data._id}`);

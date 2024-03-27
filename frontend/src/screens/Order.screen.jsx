@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
@@ -17,6 +17,7 @@ import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetPaypalIdQuery,
+  useDeliverOrderMutation,
 } from "@/slices/order.api.slice";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -34,6 +35,9 @@ const OrderScreen = () => {
     refetch,
   } = useGetOrderDetailsQuery(orderId);
   const [payOrder, { isLoading: isLoadingPay }] = usePayOrderMutation();
+  const [deliverOrder, { isLoading: isLoadingDeliver }] =
+    useDeliverOrderMutation();
+
   const {
     data: paypal,
     isLoading: isLoadingPaypal,
@@ -65,6 +69,30 @@ const OrderScreen = () => {
       }
     }
   }, [isLoadingPaypal, paypal, errorPaypal, order, paypalDispatch]);
+
+  const handleDelivered = async () => {
+    try {
+      const res = await deliverOrder(orderId);
+
+      if (!res.error) {
+        refetch();
+        toast({
+          variant: "success",
+          description: "Order has been delivered",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          description: res.error,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: error.message,
+      });
+    }
+  };
 
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
@@ -125,11 +153,10 @@ const OrderScreen = () => {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Status</AlertTitle>
           <AlertDescription>
-            {error?.data?.message || error.error}
+            {error?.data?.message || error.message}
           </AlertDescription>
         </Alert>
       )}
-      {/* {paypal && console.log(paypal, paypal.clientId)} */}
 
       {order && (
         <>
@@ -281,6 +308,20 @@ const OrderScreen = () => {
                   <div>{error && <div>{error}</div>}</div>
 
                   <Separator className="my-1" />
+
+                  {userInfo &&
+                    userInfo.isAdmin &&
+                    order.isPaid &&
+                    !order.isDelivered && (
+                      <CardFooter>
+                        <Button onClick={handleDelivered} variant="default">
+                          {isLoadingDeliver && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          )}
+                          Mark as Delivered
+                        </Button>
+                      </CardFooter>
+                    )}
                 </Card>
                 {/* payment block */}
               </div>

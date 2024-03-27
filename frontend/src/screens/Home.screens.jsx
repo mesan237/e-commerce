@@ -9,16 +9,6 @@ import { useGetProductsQuery } from "@/slices/product.api.slice";
 const Home = () => {
   const { data: products, error, isLoading } = useGetProductsQuery();
 
-  // const [prod, setProd] = useState([]);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/api/product/", { credentials: "include" })
-  //     .then((response) => response.json())
-  //     .then((data) => setProd(data));
-  // }, []);
-
-  // console.log(products && products, "Products");
-
   return (
     <>
       <p className="mb-4 font-bold h3">Recent products</p>

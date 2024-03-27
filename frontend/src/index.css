@@ -183,7 +183,7 @@
   }
 
   .h2 {
-    @apply sm:text-[18px] text-[14px] text-secondary-foreground  tracking-wider;
+    @apply sm:text-[28px] text-[20px] text-primary  tracking-wider;
   }
   .h3 {
     @apply sm:text-[28px] text-[24px] text-primary;

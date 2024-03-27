@@ -20,7 +20,13 @@ import { Badge } from "./ui/badge";
 
 import { logout } from "@/slices/auth.slice";
 import { useLogoutMutation } from "@/slices/user.api.slice";
-import { LogOut, UserCog } from "lucide-react";
+import {
+  ListCollapse,
+  LogOut,
+  ShoppingBag,
+  UserCog,
+  Users,
+} from "lucide-react";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -30,7 +36,7 @@ const Header = () => {
 
   const [logoutApi] = useLogoutMutation();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const log = async () => {
     if (userInfo) {
@@ -111,6 +117,45 @@ const Header = () => {
                   Sign in
                 </NavigationMenuLink>
               </Link>
+            )}
+            {userInfo && userInfo.isAdmin && (
+              <NavigationMenu>
+                <NavigationMenuLink>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink className={navigationLinkBtnStyle()}>
+                      <NavigationMenuTrigger className="gap-2">
+                        {/* <FaUser className="text-slate-500" /> */}
+                        Admin
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className="grid w-[100px] gap-3 p-4 md:w-[120px] lg:w-[150px]">
+                          <Link
+                            to="/admin/orderlist"
+                            className="flex justify-between align-baseline"
+                          >
+                            Orders
+                            <ShoppingBag color="#66aee5" className="size-4" />
+                          </Link>
+                          <Link
+                            to="/admin/userlist"
+                            className="flex justify-between align-baseline"
+                          >
+                            Users
+                            <Users color="#66aee5" className="size-4" />
+                          </Link>
+                          <Link
+                            to="/admin/productlist"
+                            className="flex justify-between align-baseline"
+                          >
+                            Products
+                            <ListCollapse color="#66aee5" className="size-4" />
+                          </Link>
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                </NavigationMenuLink>
+              </NavigationMenu>
             )}
           </NavigationMenuItem>
         </NavigationMenuList>

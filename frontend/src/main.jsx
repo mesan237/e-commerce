@@ -20,6 +20,9 @@ import PaymentScreen from "./screens/Payment.screen.jsx";
 import PlaceOrderScreen from "./screens/PlaceOrder.screen.jsx";
 import OrderScreen from "./screens/Order.screen.jsx";
 import ProfileScreen from "./screens/Profile.screen.jsx";
+import AdminRoutesComponent from "./components/AdminRoutes.component.jsx";
+import OrderListScreen from "./screens/admin/OrderList.screen.jsx";
+import AdminProductScreen from "./components/data-table/Page.server.compoent.jsx";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +58,21 @@ const router = createBrowserRouter([
           {
             path: "/profile",
             element: <ProfileScreen />,
+          },
+        ],
+      },
+      // Admin routes
+      {
+        path: "",
+        element: <AdminRoutesComponent />,
+        children: [
+          {
+            path: "/admin/orderlist",
+            element: <OrderListScreen />,
+          },
+          {
+            path: "/admin/productlist",
+            element: <AdminProductScreen />,
           },
         ],
       },
