@@ -22,7 +22,7 @@ import OrderScreen from "./screens/Order.screen.jsx";
 import ProfileScreen from "./screens/Profile.screen.jsx";
 import AdminRoutesComponent from "./components/AdminRoutes.component.jsx";
 import OrderListScreen from "./screens/admin/OrderList.screen.jsx";
-import AdminProductScreen from "./components/data-table/Page.server.compoent.jsx";
+import AdminProductScreen from "./screens/admin/Page.server.compoent.jsx";
 
 const router = createBrowserRouter([
   {

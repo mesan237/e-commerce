@@ -56,7 +56,7 @@ const Header = () => {
 
   return (
     <>
-      <NavigationMenu className="">
+      <NavigationMenu className="mb-0">
         <NavigationMenuList className="w-screen flex px-4 py-1 m-0 bg-slate-200">
           <NavigationMenuItem className=" flex items-center gap-2 w-full">
             <NavigationMenuLink className="mr-auto">

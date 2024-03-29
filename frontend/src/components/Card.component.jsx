@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import rasp from "../assets/images/raspberry-pi.jpeg";
 import {
   Card,
   CardContent,

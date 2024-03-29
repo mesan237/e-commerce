@@ -1,6 +1,8 @@
 import express from "express";
+import path from "path";
 import dotenv from "dotenv";
 dotenv.config();
+
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectdb from "./config/db.js";
@@ -8,6 +10,7 @@ import connectdb from "./config/db.js";
 import productRoutes from "./routes/product.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import orderRoutes from "./routes/order.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
 import { notFound, errorHandler } from "./middleware/error.middleware.js";
 connectdb();
 
@@ -23,14 +26,23 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
+// app.get("/api/upload", (req, res) => {
+//   console.log(req.body);
+//   res.send("data uploaded");
+// });
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.get("/api/config/paypal", (req, res) => {
   res.send({ clientId: process.env.PAYPAL_ID_CLIENT });
 });
+
+const __dirname = path.resolve();
+
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use(notFound);
 app.use(errorHandler);
