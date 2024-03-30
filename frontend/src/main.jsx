@@ -23,6 +23,7 @@ import ProfileScreen from "./screens/Profile.screen.jsx";
 import AdminRoutesComponent from "./components/AdminRoutes.component.jsx";
 import OrderListScreen from "./screens/admin/OrderList.screen.jsx";
 import AdminProductScreen from "./screens/admin/Page.server.compoent.jsx";
+import UserListScreen from "./screens/admin/user/UserList.screen.jsx";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
           {
             path: "/admin/productlist",
             element: <AdminProductScreen />,
+          },
+          {
+            path: "/admin/userlist",
+            element: <UserListScreen />,
           },
         ],
       },

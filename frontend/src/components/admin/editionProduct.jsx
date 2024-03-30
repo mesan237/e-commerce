@@ -28,7 +28,7 @@ const EditionProduct = ({
 }) => {
   const { name, brand, category, price, countInStock, description } = product;
   const { toast } = useToast();
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
 
   const [uploadProductImage, { isLoading: loadingUpload }] =
     useUploadProductImageMutation();
@@ -62,8 +62,33 @@ const EditionProduct = ({
           variant: "success",
           description: "image has been updated",
         });
-        console.log(res);
-        // dispach(setRefetch(true));
+        console.log(res.image);
+
+        try {
+          const result = await updateProduct({
+            productId,
+            image: res.image,
+            ...data,
+          });
+          if (!result.error) {
+            toast({
+              variant: "success",
+              description: "Product has been updated",
+            });
+            dispatch(setRefetch(true));
+            setOpenUpdate(false);
+          } else {
+            toast({
+              variant: "destructive",
+              description: result.error.data.message,
+            });
+          }
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            description: error.data.message,
+          });
+        }
         // setOpenUpdate(false);
       } else {
         toast({
@@ -77,27 +102,6 @@ const EditionProduct = ({
         description: error.data.message,
       });
     }
-    // try {
-    //   const res = await updateProduct({ productId, ...data });
-    //   if (!res.error) {
-    //     toast({
-    //       variant: "success",
-    //       description: "Product has been updated",
-    //     });
-    //     dispatch(setRefetch(true));
-    //     setOpenUpdate(false);
-    //   } else {
-    //     toast({
-    //       variant: "destructive",
-    //       description: res.error.data.message,
-    //     });
-    //   }
-    // } catch (error) {
-    //   toast({
-    //     variant: "destructive",
-    //     description: error.data.message,
-    //   });
-    // }
   };
 
   return (

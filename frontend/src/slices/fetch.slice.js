@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   rerender: false,
+  userRender: false,
 };
 
 const fetchSlice = createSlice({
@@ -11,9 +12,12 @@ const fetchSlice = createSlice({
     setRefetch: (state, action) => {
       state.rerender = action.payload;
     },
+    refetchUser: (state, action) => {
+      state.userRender = action.payload;
+    },
   },
 });
 
-export const { setRefetch } = fetchSlice.actions;
+export const { setRefetch, refetchUser } = fetchSlice.actions;
 
 export default fetchSlice.reducer;

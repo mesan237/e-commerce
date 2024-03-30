@@ -3,7 +3,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
+import post from "../../../../uploads/image-1711782447967.png";
 import {
   Table,
   TableBody,
@@ -134,22 +134,39 @@ export function DataTable({ columns, data }) {
         </Table>
       </div>
 
-      <Card className="w-[380px] max-h-screen sticky top-0  overflow-scroll">
-        <CardHeader>
-          <CardTitle>Details</CardTitle>
-          <CardTitle>{detailsData?.name}</CardTitle>
-          <CardImage src={detailsData?.image} alt={detailsData?.name} />
-        </CardHeader>
-
-        <CardContent className="grid gap-4">
-          <div>
-            <CardItem title="Description" data={detailsData?.description} />
-            <CardItem title="Category" data={detailsData?.category} />
-            <CardItem title="Brand" data={detailsData?.brand} />
-            <CardItem title="Price" data={detailsData?.price} />
-            <CardItem title="Rating" data={detailsData?.rating} />
+      <Card
+        className={`w-[380px] max-h-screen sticky top-0 ${
+          detailsData?.length != 0 ? "overflow-y-scroll" : null
+        } `}
+      >
+        <CardTitle className="py-3 text-center">Details</CardTitle>
+        {detailsData?.length === 0 && (
+          <img src={post} alt="product details" className=" size-2/3 mx-auto" />
+        )}
+        {detailsData?.length === 0 && (
+          <div className="text-center">
+            Select an item to see the details here
           </div>
-        </CardContent>
+        )}
+
+        {detailsData?.length !== 0 && (
+          <>
+            <CardHeader>
+              <CardTitle>{detailsData?.name}</CardTitle>
+              <CardImage src={detailsData?.image} alt={detailsData?.name} />
+            </CardHeader>
+
+            <CardContent className="grid gap-4">
+              <div>
+                <CardItem title="Description" data={detailsData?.description} />
+                <CardItem title="Category" data={detailsData?.category} />
+                <CardItem title="Brand" data={detailsData?.brand} />
+                <CardItem title="Price" data={detailsData?.price} />
+                <CardItem title="Rating" data={detailsData?.rating} />
+              </div>
+            </CardContent>
+          </>
+        )}
       </Card>
     </div>
   );
