@@ -117,7 +117,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.productId);
 
   if (product) {
-    const deletedProduct = await product.deleteOne();
+    const deletedProduct = await product.deleteOne({ _id: product._id });
     if (deletedProduct) {
       res.json({ message: "Product deleted successfully" });
     } else {

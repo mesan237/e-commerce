@@ -78,16 +78,58 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @route GET /api/products/:productId
 // @access Public
 const getUsers = asyncHandler(async (req, res) => {
-  res.json("register");
+  const users = await User.find({});
+  res.status(200).json(users);
 });
 // @desc log
 // @route GET /api/registe/login
 // @access Public
-const updateUser = asyncHandler(async (req, res) => {});
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  console.log(user);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = Boolean(req.body.isAdmin);
+
+    const updatedUser = await user.save({});
+    if (updatedUser) {
+      res.status(200).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      res.status(401);
+      throw new Error("user update failed ! ");
+    }
+  } else {
+    res.status(401);
+    throw new Error("User not found ! ");
+  }
+});
 // @desc log
 // @route GET /api/registe/login
 // @access Public
-const getUserById = asyncHandler(async (req, res) => {});
+const getUserById = asyncHandler(async (req, res) => {
+  const id = req.params.id ? req.params.id : req.user.userId;
+
+  const user = await User.findById(id);
+  console.log(user);
+
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(401);
+    throw new Error("User not found ! ");
+  }
+});
 // @desc logout&& clear cookie
 // @route GET /api/users/logout
 // @access Private
@@ -104,7 +146,24 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @desc fetch a single product
 // @route GET /api/products/:productId
 // @access Public
-const deleteUser = asyncHandler(async (req, res) => {});
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    if (user.isAdmin) {
+      res.status(400);
+      throw new Error("You cannot delete admin user");
+    }
+    const deleteUser = await user.deleteOne({ _id: user._id });
+    if (deleteUser) {
+      res.status(200).json({
+        message: "User deleted successfully",
+      });
+    }
+  } else {
+    res.status(401);
+    throw new Error("User not found ! ");
+  }
+});
 // @desc update user
 // @route GET /api/users/profile
 // @access Private
