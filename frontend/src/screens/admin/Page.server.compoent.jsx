@@ -9,17 +9,23 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setRefetch } from "@/slices/fetch.slice";
+import { useParams } from "react-router-dom";
 
 export default function AdminProductScreen() {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { pageNumber, keyword } = useParams();
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+    keyword,
+  });
+
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
+  const [products, setProducts] = useState([]);
   const { rerender } = useSelector((state) => state.fetch);
 
   useEffect(() => {
     let items = [];
-    if (products) {
-      products.forEach((product) =>
+    if (data?.products) {
+      data?.products.forEach((product) =>
         items.push({
           id: product._id,
           name: product.name,
@@ -31,15 +37,15 @@ export default function AdminProductScreen() {
           stock: product.countInStock,
         })
       );
-      setData(items);
+      setProducts(items);
     }
     if (rerender === true) {
       refetch();
       dispatch(setRefetch(false));
     }
-  }, [products, rerender, dispatch, refetch]);
+  }, [data, rerender, dispatch, refetch]);
   // console.log(rerender);
-  // console.log(data && data);
+  // console.log(pageNumber, keyword);
 
   return (
     <>
@@ -48,7 +54,7 @@ export default function AdminProductScreen() {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
-            {error.data.message || error.error}
+            {error?.data?.message || error?.message}
           </AlertDescription>
         </Alert>
       )}
@@ -56,8 +62,8 @@ export default function AdminProductScreen() {
 
       {products && data && (
         <>
-          <div className=" mx-auto py-10">
-            <DataTable columns={columns} data={data} refetch={refetch} />
+          <div className=" mx-auto ">
+            <DataTable columns={columns} data={products} />
           </div>
         </>
       )}

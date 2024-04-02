@@ -5,8 +5,28 @@ import asyncHandler from "../middleware/middleware.js";
 // @route GET /api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-  res.json(products);
+  const pageSize = req.query.pageNumber && req.query.keyword ? 8 : 0;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } }
+    : {};
+  const count = await Product.countDocuments({ ...keyword });
+
+  const products = await Product.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
+
+const getTopProducts = asyncHandler(async (req, res) => {
+  const topProducts = await Product.find({}).sort({ rating: -1 }).limit(3);
+  if (topProducts) {
+    res.status(200).json(topProducts);
+  } else {
+    res.status(404);
+    throw new Error("fetch issues");
+  }
 });
 
 // @desc fetch a single product
@@ -132,10 +152,48 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const createProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+  const product = await Product.findById(req.params.productId);
+
+  if (product) {
+    const alreadyReviewed = await Product.reviews.find(
+      (review) => review.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("You have already reviewed this product");
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length;
+
+    product.rating =
+      product.reviews.reduce((acc, review) => acc + review.rating, 0) /
+      product.reviews.length;
+
+    await product.save();
+    res.status(201).json({ message: "Review added" });
+  } else {
+    res.status(404);
+    throw new Error("Resource not found");
+  }
+});
+
 export {
   getProducts,
   getProductById,
   updateProduct,
   deleteProduct,
   createProduct,
+  createProductReview,
+  getTopProducts,
 };

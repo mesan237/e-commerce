@@ -26,10 +26,6 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
-// app.get("/api/upload", (req, res) => {
-//   console.log(req.body);
-//   res.send("data uploaded");
-// });
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);

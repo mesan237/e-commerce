@@ -27,6 +27,7 @@ import {
   UserCog,
   Users,
 } from "lucide-react";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -46,23 +47,24 @@ const Header = () => {
         navigate("/login");
         toast({
           description: "You have been logged out",
-          variant: "destructive",
+          variant: "success",
         });
       }
-      console.log(result);
+      // console.log(result);
     }
   };
   // console.log(userInfo);
 
   return (
     <>
-      <NavigationMenu className="mb-0">
-        <NavigationMenuList className="w-screen flex px-4 py-1 m-0 bg-slate-200">
+      <NavigationMenu className="mb-0 h-18 bg-slate-900 sticky top-0 border-b border-border/40 bg-background/45 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <NavigationMenuList className="w-screen flex py-1 m-0 px-8">
           <NavigationMenuItem className=" flex items-center gap-2 w-full">
             <NavigationMenuLink className="mr-auto">
-              <img src={logo} alt="iot shop" className="w-20 h-20" />
+              <img src={logo} alt="iot shop" className="w-14 h-14" />
             </NavigationMenuLink>
 
+            <SearchBox />
             <Link to="/cart">
               <NavigationMenuLink
                 className={`gap-1 items-center ${navigationLinkBtnStyle()}`}

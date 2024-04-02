@@ -13,6 +13,7 @@ import {
 } from "../ui/dialog";
 import { EditProduct } from "../admin/EditProduct.component";
 import { formatMoney } from "@/utils/formatMoney";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { useDispatch } from "react-redux";
 
@@ -116,7 +117,23 @@ const TableCell = ({ row, table }) => {
 export const columns = [
   {
     accessorKey: "name",
-    header: () => <div className="text-left">Name</div>,
+    header: ({ column, table }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            // const page = table.getState().pagination.pageIndex;
+            // table.setPageIndex(page + 1);
+            column.toggleSorting(column.getIsSorted() === "asc");
+
+            // console.log(table);
+          }}
+        >
+          <div className="text-left">NAME</div>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     // cell: ({ row }) => {
     // const name = row.getValue("nam")
     //   return <div className="text-right font-medium">{row}</div>
@@ -124,7 +141,7 @@ export const columns = [
   },
   {
     accessorKey: "price",
-    header: () => <div className="text-center">Price</div>,
+    header: () => <div className="text-center">PRICE</div>,
     cell: ({ row }) => {
       const price = row.getValue("price");
       return (
@@ -142,7 +159,7 @@ export const columns = [
   // },
   {
     accessorKey: "category",
-    header: () => <div className="text-left">Category</div>,
+    header: () => <div className="text-left">CATEGORY</div>,
     cell: ({ row }) => {
       const category = row.getValue("category");
       return <div className="text-left">{category}</div>;
@@ -150,14 +167,14 @@ export const columns = [
   },
   {
     accessorKey: "stock",
-    header: () => <div className="text-center">Stock</div>,
+    header: () => <div className="text-center">STOCK</div>,
     cell: ({ row }) => {
       const stock = row.getValue("stock");
       return <div className="text-center ">{stock}</div>;
     },
   },
   {
-    header: "Actions",
+    header: "ACTIONS",
     id: "actions",
     cell: TableCell,
     // ({ row, table }) => {

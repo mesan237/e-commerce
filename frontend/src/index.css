@@ -147,7 +147,7 @@
 
 @layer utilities {
   .padding {
-    @apply sm:px-8 px-8 sm:py-8 py-8;
+    @apply sm:px-8 px-8 sm:pt-8 pt-8;
   }
 
   .padding-x {
