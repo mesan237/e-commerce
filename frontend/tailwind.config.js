@@ -19,8 +19,25 @@ module.exports = {
     },
     fontFamily: {
       monoton: ["Monoton", "Work Sans", "Times New Roman"],
+      poppins: ["Poppins", "Work Sans", "sans-serif"],
     },
     extend: {
+      backgroundImage: {
+        "hero-pattern": "url('/src/assets/images/hero-bg.webp')",
+        hero: "url('/src/assets/hero.jpg')",
+        "hero-rasp": "url('/src/assets/rasp-space.png')",
+        "hero-ardu": "url('/src/assets/ardu-iot.png')",
+        // "hero-iot": "url('/src/assets/iot-comp.webp')",
+        // "hero-iot": "url('/src/assets/iot.webp')",
+        "hero-iot": "url('/src/assets/iot-cloud.webp')",
+      },
+      backgroundSize: {
+        auto: "auto",
+        cover: "cover",
+        contain: "contain",
+        "50%": "50%",
+        16: "4rem",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

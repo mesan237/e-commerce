@@ -1,7 +1,7 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -39,29 +39,27 @@ export function ProductCarousel() {
         <Carousel
           plugins={[plugin.current]}
           // w-full
-          className=" max-w-[500px] mx-auto "
+          className=" max-w-[350px] ml-auto relative rounded-3xl"
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
         >
-          <CarouselContent className="">
+          <CarouselContent className=" ">
             {topProducts.map((product, index) => (
               <CarouselItem key={index} className="">
                 <div className="p-1 ">
                   <Card className="">
-                    <CardContent className=" flex aspect-auto items-center justify-center p-6">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className=" rounded-md"
-                      />
-                    </CardContent>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className=" rounded-md"
+                    />
                   </Card>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute top-0 left-2 bottom-0 my-auto" />
+          <CarouselNext className="absolute top-0 right-3 bottom-0 my-auto" />
         </Carousel>
       )}
     </>

@@ -65,11 +65,6 @@ const EditUser = ({ user, setOpenUpdate }) => {
     <div>
       {user && (
         <>
-          {/* {loadingProduct && (
-            <DialogOverlay>
-              <Loader2 className="m-auto size-10 animate-spin z-50" />
-            </DialogOverlay>
-          )} */}
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
             <DialogDescription>
@@ -91,19 +86,6 @@ const EditUser = ({ user, setOpenUpdate }) => {
                   })}
                 />
               </div>
-
-              {/* <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="brand" className="text-right">
-                  brand
-                </Label>
-                <Input
-                  id="brand"
-                  className="col-span-3"
-                  {...register("brand", {
-                    required: "brand is required",
-                  })}
-                />
-              </div> */}
             </div>
             <DialogFooter>
               <Button type="submit" disabled={isLoading}>

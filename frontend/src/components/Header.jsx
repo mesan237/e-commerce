@@ -57,7 +57,7 @@ const Header = () => {
 
   return (
     <>
-      <NavigationMenu className="mb-0 h-18 bg-slate-900 sticky top-0 border-b border-border/40 bg-background/45 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <NavigationMenu className="mb-0 h-18 bg-slate-400 sticky top-0 border-b border-gray-200  backdrop-blur-lg bg-opacity-30">
         <NavigationMenuList className="w-screen flex py-1 m-0 px-8">
           <NavigationMenuItem className=" flex items-center gap-2 w-full">
             <NavigationMenuLink className="mr-auto">
@@ -111,9 +111,10 @@ const Header = () => {
                 </NavigationMenuLink>
               </NavigationMenu>
             ) : (
-              <Link to="/login">
+              <Link to="/login" className="relative">
+                <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 opacity-75"></div>
                 <NavigationMenuLink
-                  className={`gap-2 ${navigationLinkBtnStyle()}`}
+                  className={`gap-2 relative bg-white ${navigationLinkBtnStyle()}`}
                 >
                   <FaUser className="text-slate-500" />
                   Sign in
