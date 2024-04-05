@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className="padding">
+      <div className="padding app">
         <Outlet />
       </div>
       <Toaster />

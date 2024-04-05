@@ -26,7 +26,7 @@ module.exports = {
         "hero-pattern": "url('/src/assets/images/hero-bg.webp')",
         hero: "url('/src/assets/hero.jpg')",
         "hero-rasp": "url('/src/assets/rasp-space.png')",
-        "hero-ardu": "url('/src/assets/ardu-iot.png')",
+        "hero-ardu": "url('/src/assets/hero-4.png')",
         // "hero-iot": "url('/src/assets/iot-comp.webp')",
         // "hero-iot": "url('/src/assets/iot.webp')",
         "hero-iot": "url('/src/assets/iot-cloud.webp')",
