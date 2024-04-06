@@ -50,6 +50,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
       keepUnusedDataFor: 5,
+      providesTags: ["Order"],
     }),
   }),
 });

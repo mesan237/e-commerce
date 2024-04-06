@@ -29,12 +29,17 @@ import { AlertCircle } from "lucide-react";
 import { addToCart } from "@/slices/cart.slice";
 
 const ProductScreen = () => {
-  const id = useParams();
+  const { productId } = useParams();
   const [qty, setQty] = useState(1);
-  const { data: product, error, isLoading } = useGetProductDetailsQuery(id);
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useGetProductDetailsQuery(productId);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(productId, product && product);
 
   const handleCart = () => {
     dispatch(addToCart({ ...product, qty }));
@@ -50,6 +55,7 @@ const ProductScreen = () => {
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
             {error?.data?.message || error.message}
+            {console.log(error, error.data)}
           </AlertDescription>
         </Alert>
       )}
