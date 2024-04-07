@@ -19,16 +19,8 @@ export function DataTable({ columns, data }) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  // const [detailsData, setDetailsData] = useState([]);
-  // const handleDetails = (row) => {
-  //   setDetailsData(row.original);
-  // };
-
-  // console.log(tab.getState());
   return (
-    <div className="rounded-md border flex-1 px-4">
-      <p className="mb-4 font-bold h3 text-center">List of Users</p>
-
+    <div className="rounded-md border flex-1 w-full mx-auto">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

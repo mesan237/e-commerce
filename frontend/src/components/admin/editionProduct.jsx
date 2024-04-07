@@ -3,9 +3,9 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogOverlay,
   DialogTitle,
 } from "@/components/ui/dialog";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
@@ -109,11 +109,6 @@ const EditionProduct = ({
       {/* {product && product} */}
       {product && (
         <>
-          {loadingProduct && (
-            <DialogOverlay>
-              <Loader2 className="m-auto size-10 animate-spin z-50" />
-            </DialogOverlay>
-          )}
           <DialogHeader>
             <DialogTitle>Edit Product</DialogTitle>
             <DialogDescription>

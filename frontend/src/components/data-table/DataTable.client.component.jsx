@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 
 import {
   flexRender,
@@ -17,7 +18,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -26,13 +26,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CardItem from "../CardItem";
-import { useCreateProductMutation } from "@/slices/product.api.slice";
-import { useToast } from "../ui/use-toast";
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
-import { setRefetch } from "@/slices/fetch.slice";
-import { useDispatch } from "react-redux";
 import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 import {
   DropdownMenu,
@@ -40,17 +45,17 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import AddProduct from "../admin/AddProduct";
+import { Dialog } from "@radix-ui/react-dialog";
+import { DialogContent, DialogTrigger } from "../ui/dialog";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 export function DataTable({ columns, data }) {
-  const [createProduct, { isLoading: loadingCreate }] =
-    useCreateProductMutation();
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
 
-  const { toast } = useToast();
-
-  const dispatch = useDispatch();
+  const [openCreate, setOpenCreate] = useState(false);
 
   const table = useReactTable({
     data,
@@ -74,25 +79,10 @@ export function DataTable({ columns, data }) {
     setDetailsData(row.original);
   };
 
-  const addHandler = async () => {
-    try {
-      await createProduct();
-      dispatch(setRefetch(true));
-      toast({
-        variant: "success",
-        description: "Product has been added",
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        description: error?.data?.message || error.message,
-      });
-    }
-  };
   // console.log(tab.getState());
   return (
-    <div className="flex gap-6 items-start">
-      <div>
+    <div className="flex gap-6 ">
+      <div className="flex-1 h-[calc(100vh_-_18rem)]">
         <p className="mb-4 font-bold h3 ">List of Products</p>
         <div className="grid grid-cols-3 gap-2">
           <div className="flex items-center mb-2">
@@ -131,19 +121,26 @@ export function DataTable({ columns, data }) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button
-            className="flex ml-auto"
-            onClick={addHandler}
-            disabled={loadingCreate}
-          >
-            {!loadingCreate && <Plus />}
-            {/* {loadingCreate && (
-              <Loader2 size="icon" className="mr-2 h-4 w-4 animate-spin" />
-            )} */}
-            Add new product
-          </Button>
+          {/* create a product */}
+          <Dialog open={openCreate} onOpenChange={setOpenCreate}>
+            <DialogTrigger asChild>
+              <Button
+                className="flex ml-auto"
+                onClick={() => setOpenCreate(true)}
+              >
+                <Plus />
+                Add new product
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[32rem] sm:max-h-[80%] overflow-hidden overflow-y-scroll">
+              <AddProduct
+                openCreate={openCreate}
+                setOpenCreate={setOpenCreate}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
-        <div className="rounded-md border flex-1">
+        <ScrollArea className="block rounded-md border flex-1 h-full">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -193,9 +190,34 @@ export function DataTable({ columns, data }) {
               )}
             </TableBody>
           </Table>
-        </div>
+          <ScrollBar orientation="vertical" />
+        </ScrollArea>
 
         <div className="flex items-center justify-end space-x-2 py-4">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
           <Button
             variant="outline"
             size="sm"
@@ -215,48 +237,49 @@ export function DataTable({ columns, data }) {
         </div>
       </div>
 
-      <div className="relative">
-        <Card
-          className={`w-[380px] h-[calc(100vh_-_7rem)] fixed bottom-0 ${
-            detailsData?.length != 0 ? "overflow-y-scroll" : null
-          } `}
+      <div className=" w-[380px]">
+        <ScrollArea
+          className={`w-[380px] h-[calc(100vh_-_7rem)] fixed bottom-0 `}
         >
-          <CardTitle className="py-3 text-center">Details</CardTitle>
-          {detailsData?.length === 0 && (
-            <img
-              src={post}
-              alt="product details"
-              className=" block h-[16rem] mb-auto"
-            />
-          )}
-          {detailsData?.length === 0 && (
-            <div className="text-center">
-              Select an item to see the details here
-            </div>
-          )}
+          <Card className=" h-full w-full">
+            <CardTitle className="py-3 text-center">Details</CardTitle>
+            {detailsData?.length === 0 && (
+              <img
+                src={post}
+                alt="product details"
+                className=" block h-[16rem] mb-auto"
+              />
+            )}
+            {detailsData?.length === 0 && (
+              <div className="text-center">
+                Select an item to see the details here
+              </div>
+            )}
 
-          {detailsData?.length !== 0 && (
-            <>
-              <CardHeader>
-                <CardTitle>{detailsData?.name}</CardTitle>
-                <CardImage src={detailsData?.image} alt={detailsData?.name} />
-              </CardHeader>
+            {detailsData?.length !== 0 && (
+              <>
+                <CardHeader>
+                  <CardTitle>{detailsData?.name}</CardTitle>
+                  <CardImage src={detailsData?.image} alt={detailsData?.name} />
+                </CardHeader>
 
-              <CardContent className="grid gap-4">
-                <div>
-                  <CardItem
-                    title="Description"
-                    data={detailsData?.description}
-                  />
-                  <CardItem title="Category" data={detailsData?.category} />
-                  <CardItem title="Brand" data={detailsData?.brand} />
-                  <CardItem title="Price" data={detailsData?.price} />
-                  <CardItem title="Rating" data={detailsData?.rating} />
-                </div>
-              </CardContent>
-            </>
-          )}
-        </Card>
+                <CardContent className="grid gap-4">
+                  <div>
+                    <CardItem
+                      title="Description"
+                      data={detailsData?.description}
+                    />
+                    <CardItem title="Category" data={detailsData?.category} />
+                    <CardItem title="Brand" data={detailsData?.brand} />
+                    <CardItem title="Price" data={detailsData?.price} />
+                    <CardItem title="Rating" data={detailsData?.rating} />
+                  </div>
+                </CardContent>
+              </>
+            )}
+          </Card>
+          <ScrollBar orientation="vertical" />
+        </ScrollArea>
       </div>
     </div>
   );

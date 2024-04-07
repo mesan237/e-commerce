@@ -183,6 +183,35 @@
   font-family: "Work Sans", sans-serif;
 }
 
+.card-gradient:hover {
+  border: 1px solid hsl(165, 73%, 60%);
+  background-image: linear-gradient(
+    0deg,
+    hsl(175, 38%, 94%) 0%,
+    hsl(176deg 72% 93%) 5%,
+    hsl(176deg 71% 95%) 10%,
+    hsl(176deg 71% 97%) 14%,
+    hsl(176deg 71% 98%) 19%,
+    hsl(176deg 71% 100%) 24%,
+    hsl(0deg 0% 100%) 29%,
+    hsl(0deg 0% 100%) 33%,
+    hsl(0deg 0% 100%) 38%,
+    hsl(0deg 0% 100%) 43%,
+    hsl(0deg 0% 100%) 48%,
+    hsl(0deg 0% 100%) 52%,
+    hsl(0deg 0% 100%) 57%,
+    hsl(0deg 0% 100%) 62%,
+    hsl(0deg 0% 100%) 67%,
+    hsl(0deg 0% 100%) 71%,
+    hsl(0deg 0% 100%) 76%,
+    hsl(0deg 0% 100%) 81%,
+    hsl(0deg 0% 100%) 86%,
+    hsl(0deg 0% 100%) 90%,
+    hsl(0deg 0% 100%) 95%,
+    hsl(0deg 0% 100%) 100%
+  );
+}
+
 @layer components {
   .max-container {
     max-width: 1440px;

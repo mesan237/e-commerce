@@ -24,6 +24,8 @@ import AdminRoutesComponent from "./components/AdminRoutes.component.jsx";
 import OrderListScreen from "./screens/admin/OrderList.screen.jsx";
 import AdminProductScreen from "./screens/admin/Page.server.compoent.jsx";
 import UserListScreen from "./screens/admin/user/UserList.screen.jsx";
+import { Sidebar } from "./components/Sidebar.jsx";
+import HomeStatsScreen from "./screens/HomeStats.screen.jsx";
 
 const router = createBrowserRouter([
   {
@@ -80,19 +82,48 @@ const router = createBrowserRouter([
         element: <AdminRoutesComponent />,
         children: [
           {
-            path: "/admin/orderlist",
-            element: <OrderListScreen />,
-          },
-          {
-            path: "/admin/productlist",
-            element: <AdminProductScreen />,
-          },
-          {
-            path: "/admin/userlist",
-            element: <UserListScreen />,
+            path: "/admin",
+            element: <Sidebar />,
+            children: [
+              {
+                path: "/admin/home",
+                element: <HomeStatsScreen />,
+              },
+              {
+                path: "/admin/orderlist",
+                element: <OrderListScreen />,
+              },
+
+              {
+                path: "/admin/productlist",
+                element: <AdminProductScreen />,
+              },
+              {
+                path: "/admin/userlist",
+                element: <UserListScreen />,
+              },
+            ],
           },
         ],
       },
+      // {
+      //   path: "",
+      //   element: <AdminRoutesComponent />,
+      //   children: [
+      //     {
+      //       path: "/admin/orderlist",
+      //       element: <OrderListScreen />,
+      //     },
+      //     {
+      //       path: "/admin/productlist",
+      //       element: <AdminProductScreen />,
+      //     },
+      //     {
+      //       path: "/admin/userlist",
+      //       element: <UserListScreen />,
+      //     },
+      //   ],
+      // },
       {
         path: "/cart",
         element: <CartScreen />,

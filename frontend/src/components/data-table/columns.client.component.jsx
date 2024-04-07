@@ -9,11 +9,11 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogOverlay,
 } from "../ui/dialog";
+import { Loader2 } from "lucide-react";
 import { EditProduct } from "../admin/EditProduct.component";
 import { formatMoney } from "@/utils/formatMoney";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { useDispatch } from "react-redux";
 
@@ -73,7 +73,7 @@ const TableCell = ({ row, table }) => {
             />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[525px]">
+        <DialogContent className="sm:max-w-[32rem] sm:max-h-[80%] overflow-hidden overflow-y-scroll">
           <EditProduct
             productId={order.id}
             setOpenUpdate={setOpenUpdate}
@@ -83,7 +83,6 @@ const TableCell = ({ row, table }) => {
       </Dialog>
 
       <Dialog open={openDelete} onOpenChange={setOpenDelete}>
-        {isLoading && <DialogOverlay className=" z-50" />}
         <DialogTrigger asChild>
           <Button
             variant="outline"
@@ -104,7 +103,13 @@ const TableCell = ({ row, table }) => {
           </DialogHeader>
 
           <DialogFooter>
-            <Button type="submit" variant="destructive" onClick={handleDelete}>
+            <Button
+              type="submit"
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isLoading}
+            >
+              {isLoading && <Loader2 className="size-10 animate-spin z-50" />}
               Delete
             </Button>
           </DialogFooter>

@@ -15,7 +15,7 @@ export function EditProduct({ productId, openUpdate, setOpenUpdate }) {
     data: product,
     isLoading,
     error,
-  } = useGetProductDetailsQuery({ productId });
+  } = useGetProductDetailsQuery(productId);
 
   return (
     <>
@@ -30,16 +30,14 @@ export function EditProduct({ productId, openUpdate, setOpenUpdate }) {
       )}
       {isLoading && <Spinner> Loading...</Spinner>}
       {product && (
-        <>
-          <EditionProduct
-            productId={productId}
-            product={product}
-            updateProduct={updateProduct}
-            loadingProduct={loadingProduct}
-            openUpdate={openUpdate}
-            setOpenUpdate={setOpenUpdate}
-          />
-        </>
+        <EditionProduct
+          productId={productId}
+          product={product}
+          updateProduct={updateProduct}
+          loadingProduct={loadingProduct}
+          openUpdate={openUpdate}
+          setOpenUpdate={setOpenUpdate}
+        />
       )}
     </>
   );

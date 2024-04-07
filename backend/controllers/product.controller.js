@@ -81,54 +81,34 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @route POST /api/product/:id
 // @access Private
 const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product({
-    name: "NVIDIA Jetson Nano",
-    image: "/src/assets/images/nvidia_jetson_nano.png",
-    description:
-      "A small, powerful computer designed specifically for learning and developing AI and robotics, powered by an NVIDIA GPU.",
-    brand: "NVIDIA",
-    category: "AI Development Kit",
-    price: 5813,
-    countInStock: 143,
-    rating: 4.4,
-    numReviews: 72,
-  });
+  const { name, image, description, countInStock, price, brand, category } =
+    req.body;
+  console.log(req.body);
+  if (!name || !image || !description || !countInStock || !brand || !category) {
+    res.status(400);
+    throw new Error("these values are required");
+  }
 
-  const createdProduct = await product.save();
-  res.status(201).json(createProduct);
-  // const {
-  //   name,
-  //   image,
-  //   description,
-  //   countInStock,
-  //   price,
-  //   brand,
-  //   rating,
-  //   numReviews,
-  // } = req.body;
-
-  // try {
-  //   const product = await Product.create({
-  //     name,
-  //     image,
-  //     description,
-  //     countInStock,
-  //     price,
-  //     brand,
-  //     rating,
-  //     numReviews,
-  //   });
-  //   if (product) {
-  //     res.status(201);
-  //     res.json(product);
-  //   } else {
-  //     res.status(400);
-  //     throw new Error("Product creation failed");
-  //   }
-  // } catch (error) {
-  //   res.status(400);
-  //   throw new Error(error.message);
-  // }
+  try {
+    const product = await Product.create({
+      name,
+      image,
+      description,
+      countInStock,
+      price,
+      brand,
+      category,
+    });
+    if (product) {
+      res.status(201).json(product);
+    } else {
+      res.status(400);
+      throw new Error("Product creation failed");
+    }
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
 });
 
 // @desc delete a product

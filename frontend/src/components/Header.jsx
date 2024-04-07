@@ -26,6 +26,7 @@ import {
   ShoppingBag,
   UserCog,
   Users,
+  LayoutDashboard,
 } from "lucide-react";
 import SearchBox from "./SearchBox";
 
@@ -122,43 +123,52 @@ const Header = () => {
               </Link>
             )}
             {userInfo && userInfo.isAdmin && (
-              <NavigationMenu>
-                <NavigationMenuLink>
-                  <NavigationMenuItem>
-                    <NavigationMenuLink className={navigationLinkBtnStyle()}>
-                      <NavigationMenuTrigger className="gap-2">
-                        {/* <FaUser className="text-slate-500" /> */}
-                        Admin
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid w-[100px] gap-3 p-4 md:w-[120px] lg:w-[150px]">
-                          <Link
-                            to="/admin/orderlist"
-                            className="flex justify-between align-baseline"
-                          >
-                            Orders
-                            <ShoppingBag color="#66aee5" className="size-4" />
-                          </Link>
-                          <Link
-                            to="/admin/userlist"
-                            className="flex justify-between align-baseline"
-                          >
-                            Users
-                            <Users color="#66aee5" className="size-4" />
-                          </Link>
-                          <Link
-                            to="/admin/productlist"
-                            className="flex justify-between align-baseline"
-                          >
-                            Products
-                            <ListCollapse color="#66aee5" className="size-4" />
-                          </Link>
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
+              <Link to="/admin" className="relative">
+                <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 opacity-75"></div>
+                <NavigationMenuLink
+                  className={`gap-2 relative bg-white ${navigationLinkBtnStyle()}`}
+                >
+                  <LayoutDashboard className="text-slate-500" />
+                  Dashboard
                 </NavigationMenuLink>
-              </NavigationMenu>
+              </Link>
+              // <NavigationMenu>
+              //   <NavigationMenuLink>
+              //     <NavigationMenuItem>
+              //       <NavigationMenuLink className={navigationLinkBtnStyle()}>
+              //         <NavigationMenuTrigger className="gap-2">
+              //           {/* <FaUser className="text-slate-500" /> */}
+              //           Admin
+              //         </NavigationMenuTrigger>
+              //         <NavigationMenuContent>
+              //           <ul className="grid w-[100px] gap-3 p-4 md:w-[120px] lg:w-[150px]">
+              //             <Link
+              //               to="/admin/orderlist"
+              //               className="flex justify-between align-baseline"
+              //             >
+              //               Orders
+              //               <ShoppingBag color="#66aee5" className="size-4" />
+              //             </Link>
+              //             <Link
+              //               to="/admin/userlist"
+              //               className="flex justify-between align-baseline"
+              //             >
+              //               Users
+              //               <Users color="#66aee5" className="size-4" />
+              //             </Link>
+              //             <Link
+              //               to="/admin/productlist"
+              //               className="flex justify-between align-baseline"
+              //             >
+              //               Products
+              //               <ListCollapse color="#66aee5" className="size-4" />
+              //             </Link>
+              //           </ul>
+              //         </NavigationMenuContent>
+              //       </NavigationMenuLink>
+              //     </NavigationMenuItem>
+              //   </NavigationMenuLink>
+              // </NavigationMenu>
             )}
           </NavigationMenuItem>
         </NavigationMenuList>
