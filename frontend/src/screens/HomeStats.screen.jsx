@@ -11,7 +11,7 @@ const HomeStatsScreen = () => {
           <Banknote className="size-5" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">$45,231.89</div>
+          <div className="text-2xl font-bold">145,500 FCFA</div>
           <p className="text-xs text-muted-foreground">
             +20.1% from last month
           </p>
@@ -23,7 +23,7 @@ const HomeStatsScreen = () => {
           <UsersRound className="size-5" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+2350</div>
+          <div className="text-2xl font-bold">+2</div>
           <p className="text-xs text-muted-foreground">
             +180.1% from last month
           </p>
@@ -35,7 +35,7 @@ const HomeStatsScreen = () => {
           <CreditCard className="size-5" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+12,234</div>
+          <div className="text-2xl font-bold">+20</div>
           <p className="text-xs text-muted-foreground">+19% from last month</p>
         </CardContent>
       </Card>
@@ -45,8 +45,8 @@ const HomeStatsScreen = () => {
           <Activity className="size-5" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+573</div>
-          <p className="text-xs text-muted-foreground">+201 since last hour</p>
+          <div className="text-2xl font-bold">+2</div>
+          <p className="text-xs text-muted-foreground">+2 since last hour</p>
         </CardContent>
       </Card>
     </div>

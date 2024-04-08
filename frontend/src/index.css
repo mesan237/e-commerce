@@ -264,10 +264,10 @@
   } */
 
   .h2 {
-    @apply sm:text-[28px] text-[20px] text-primary  tracking-wider;
+    @apply text-xl font-bold sm:text-[28px] text-[20px] text-primary  tracking-wider;
   }
   .h3 {
-    @apply sm:text-[28px] text-[24px] text-primary;
+    @apply text-xl font-bold sm:text-[28px] text-[24px] text-primary;
   }
   .h4 {
     @apply sm:text-[18px] text-[14px] bg-slate-700 text-card uppercase tracking-wider;
