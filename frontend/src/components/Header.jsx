@@ -73,7 +73,9 @@ const Header = () => {
                 <FaCartShopping className="text-slate-500" />
                 Cart
                 {cartItems.length > 0 && (
-                  <Badge variant="notification">{cartItems.length}</Badge>
+                  <Badge variant="notification">
+                    {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                  </Badge>
                 )}
               </NavigationMenuLink>
             </Link>

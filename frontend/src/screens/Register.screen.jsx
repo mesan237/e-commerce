@@ -157,7 +157,7 @@ function RegisterForm() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button disabled={isLoading} type="submit">
+            <Button disabled={isLoading} type="submit" className="w-full">
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Register
             </Button>

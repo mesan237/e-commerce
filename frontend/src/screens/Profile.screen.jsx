@@ -93,7 +93,7 @@ const ProfileScreen = () => {
     <div className="flex gap-10">
       <Card className="min-w-[400px]">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardHeader>
+          <CardHeader className="text-center">
             <CardTitle>Update Profile</CardTitle>
           </CardHeader>
           <CardContent>
@@ -169,7 +169,7 @@ const ProfileScreen = () => {
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button disabled={isLoading} type="submit">
+            <Button disabled={isLoading} type="submit" className="w-full">
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Update
             </Button>
@@ -207,25 +207,25 @@ const ProfileScreen = () => {
             {isLoadingOrder && <Spinner> Loading...</Spinner>}
 
             {orders?.length > 0 &&
-              orders.map((order) => (
+              orders.map((order, index) => (
                 <TableRow key={order._id}>
-                  <TableCell>{order._id}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>
                     {order.createdAt.toString().substring(0, 10)}
                   </TableCell>
                   <TableCell>{order.totalPrice}</TableCell>
-                  <TableCell className="text-center ">
+                  <TableCell className="text-center">
                     {order.isPaid ? (
                       order.paidAt?.toString().substring(0, 10)
                     ) : (
-                      <CircleX className="text-red-400" />
+                      <CircleX className="text-red-400 block mx-auto" />
                     )}
                   </TableCell>
-                  <TableCell className="flex justify-center">
+                  <TableCell className="">
                     {order.isDelivered ? (
                       order.deliveredAt?.toString().substring(0, 10)
                     ) : (
-                      <CircleX className="text-red-400" />
+                      <CircleX className="text-red-400 block mx-auto" />
                     )}
                   </TableCell>
                   <TableCell>

@@ -63,9 +63,9 @@ const OrderListScreen = () => {
             {isLoading && <Spinner> Loading...</Spinner>}
 
             {orders?.length > 0 &&
-              orders.map((order) => (
+              orders.map((order, index) => (
                 <TableRow key={order._id}>
-                  <TableCell>{order._id}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>{order.user.name}</TableCell>
                   <TableCell>
                     {order.createdAt.toString().substring(0, 10)}
@@ -75,7 +75,7 @@ const OrderListScreen = () => {
                     {order.isPaid ? (
                       order.paidAt?.toString().substring(0, 10)
                     ) : (
-                      <CircleX className="text-red-400" />
+                      <CircleX className="text-red-400 block mx-auto" />
                     )}
                   </TableCell>
                   <TableCell className="text-center">

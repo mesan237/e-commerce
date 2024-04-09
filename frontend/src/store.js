@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import cartSliceReducer from "./slices/cart.slice";
 import setCredentialsReducer from "./slices/auth.slice";
 import fetchSliceReducer from "./slices/fetch.slice";
+import pathSliceReducer from "./slices/urlPath.slice";
 
 import { apiSlice } from "./slices/apiSlice";
 
@@ -12,6 +13,7 @@ export const store = configureStore({
     cart: cartSliceReducer,
     auth: setCredentialsReducer,
     fetch: fetchSliceReducer,
+    path: pathSliceReducer,
   },
 
   middleware: (getDefaultMiddleware) =>

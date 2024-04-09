@@ -14,10 +14,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { startsWith } from "lodash";
 // import { Loader2 } from "lucide-react";
 
-import { saveShippingAddress } from "@/slices/cart.slice";
+import { savePaymentMethod, saveShippingAddress } from "@/slices/cart.slice";
 import Stepper from "@/components/Stepper.component";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart);
@@ -41,8 +43,10 @@ const ShippingScreen = () => {
   });
 
   const handleCheckout = (data) => {
-    dispatch(saveShippingAddress({ ...data }));
-    navigate("/payment");
+    const { paymentMethod, address, city, postalCode, phone } = data;
+    dispatch(savePaymentMethod(paymentMethod));
+    dispatch(saveShippingAddress({ address, city, postalCode, phone }));
+    navigate("/placeorder");
   };
 
   const onSubmit = (data) => {
@@ -51,15 +55,28 @@ const ShippingScreen = () => {
 
   return (
     <>
-      <h1 className="mb-4 font-bold h3 text-center">Shipping</h1>
       <Stepper step={2} />
-      <div className="flex justify-center">
-        <Card className="w-[400px]">
+
+      <div className="flex items-center justify-center">
+        <Card className="w-fit flex">
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardHeader>
-              <CardTitle>Info</CardTitle>
+              <CardTitle>Information and payment method</CardTitle>
             </CardHeader>
             <CardContent>
+              <div className="mb-4">
+                <Label htmlFor="payment">Payment method</Label>
+                <RadioGroup
+                  className="pt-2"
+                  defaultValue="paypal"
+                  {...register("paymentMethod", { required: true })}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="paypal" id="paypal" />
+                    <Label htmlFor="paypal">Paypal or credit card</Label>
+                  </div>
+                </RadioGroup>
+              </div>
               <div className="grid w-full items-center gap-4">
                 <div className="relative flex flex-col space-y-1.5">
                   <Label htmlFor="address">Address</Label>
@@ -111,18 +128,28 @@ const ShippingScreen = () => {
                     </span>
                   )}
                 </div>
-                <div className="relative flex flex-col space-y-1.5">
+                <div className="relative flex flex-col space-y-1.5 ">
                   <Label htmlFor="phone number">Phone number</Label>
                   <Controller
                     name="phone"
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <PhoneInput
-                        className="number"
+                        onlyCountries={["cm", "td", "ga"]}
                         country={"cm"}
+                        inputStyle={{ width: "100%" }}
                         value={value}
                         onChange={onChange} // Use onChange from the Controller's field
                         id="phone"
+                        isValid={(inputNumber, country, countries) => {
+                          return countries.some((country) => {
+                            return (
+                              startsWith(inputNumber, country.dialCode) ||
+                              startsWith(country.dialCode, inputNumber) ||
+                              inputNumber.length === 9
+                            );
+                          });
+                        }}
                       />
                     )}
                   />
@@ -135,7 +162,7 @@ const ShippingScreen = () => {
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">
-              <Button type="submit">
+              <Button type="submit" className="w-full">
                 {/* {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} */}
                 Continue
               </Button>
@@ -143,6 +170,7 @@ const ShippingScreen = () => {
           </form>
         </Card>
       </div>
+      {/* </div> */}
     </>
   );
 };

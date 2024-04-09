@@ -1,7 +1,5 @@
-import React from "react";
-
 const CustomerReview = () => {
-  return <div>CustomerReview</div>;
+  return <div>can you generate an icon of an iot ecommerce website ?</div>;
 };
 
 export default CustomerReview;

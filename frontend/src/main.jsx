@@ -16,7 +16,6 @@ import LoginForm from "./screens/Login.screen.jsx";
 import RegisterForm from "./screens/Register.screen.jsx";
 import ShippingScreen from "./screens/Shipping.screen.jsx";
 import PrivateRoutes from "./components/PrivateRoutes.component.jsx";
-import PaymentScreen from "./screens/Payment.screen.jsx";
 import PlaceOrderScreen from "./screens/PlaceOrder.screen.jsx";
 import OrderScreen from "./screens/Order.screen.jsx";
 import ProfileScreen from "./screens/Profile.screen.jsx";
@@ -58,10 +57,10 @@ const router = createBrowserRouter([
             path: "/checkout",
             element: <ShippingScreen />,
           },
-          {
-            path: "/payment",
-            element: <PaymentScreen />,
-          },
+          // {
+          //   path: "/payment",
+          //   element: <PaymentScreen />,
+          // },
           {
             path: "/placeorder",
             element: <PlaceOrderScreen />,

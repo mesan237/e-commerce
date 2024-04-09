@@ -283,16 +283,6 @@ const OrderScreen = () => {
                           <Loader2 />
                         ) : (
                           <div>
-                            {/* <Button
-                              disabled={isLoadingPay}
-                              className="mb-2"
-                              onClick={onApproveTest}
-                            >
-                              {isLoadingPay && (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              )}
-                              Test Pay Order
-                            </Button> */}
                             <div>
                               <PayPalButtons
                                 createOrder={createOrder}

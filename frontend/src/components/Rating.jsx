@@ -11,12 +11,12 @@ const Rating = ({ rating }) => {
   return (
     <div className="flex items-center">
       {Array.from({ length: count }, (_, i) => (
-        <FaStar key={i} className="text-yellow-400" />
+        <FaStar key={i} className="text-primary" />
       ))}
-      {diff !== 0 && <TiStarHalfOutline className="w-5 h-5 text-yellow-400" />}
+      {diff !== 0 && <TiStarHalfOutline className="w-5 h-5 text-primary" />}
       {empty > 0 &&
         Array.from({ length: empty }, (_, i) => (
-          <FaRegStar key={i} className="text-yellow-400" />
+          <FaRegStar key={i} className="text-primary" />
         ))}
     </div>
   );

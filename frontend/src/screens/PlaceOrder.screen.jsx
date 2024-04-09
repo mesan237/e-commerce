@@ -24,14 +24,20 @@ const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const { cartItems, shippingAddress, paymentMethod } = cart;
+  const {
+    cartItems,
+    itemPrice,
+    shippingPrice,
+    totalPrice,
+    shippingAddress,
+    paymentMethod,
+  } = cart;
   const { toast } = useToast();
 
+  console.log(cart);
   useEffect(() => {
-    if (!shippingAddress.address) {
+    if (!shippingAddress.address || !paymentMethod) {
       navigate("/checkout");
-    } else if (!paymentMethod) {
-      navigate("/payment");
     }
   }, [shippingAddress, paymentMethod, navigate]);
 
@@ -40,12 +46,12 @@ const PlaceOrderScreen = () => {
   const handlePlaceOrder = async () => {
     try {
       const res = await createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod.paymentMethod,
-        itemsPrice: cart.itemPrice,
-        shippingPrice: cart.shippingPrice,
-        totalPrice: cart.totalPrice,
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        itemsPrice: itemPrice,
+        shippingPrice: shippingPrice,
+        totalPrice: totalPrice,
       });
       // console.log(res);
       if (!res.error) {
@@ -67,7 +73,7 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
-      <Stepper step={4} />
+      <Stepper step={3} />
       <div className="flex gap-6 justify-center items-start">
         <div className="flex flex-col gap-4">
           <Card className=" min-w-fit border-0  shadow-none  ">
@@ -99,7 +105,7 @@ const PlaceOrderScreen = () => {
             <CardContent className="px-0">
               <div className="space-x-1">
                 <span className="font-semibold">Method : </span>
-                <span>{paymentMethod.paymentMethod} </span>
+                <span>{paymentMethod} </span>
               </div>
             </CardContent>
           </Card>
@@ -159,7 +165,9 @@ const PlaceOrderScreen = () => {
             <CardContent>
               <div className="flex justify-between">
                 <p>Total:</p>
-                <p className="font-semibold">{cart.totalPrice} FCFA</p>
+                <p className="font-semibold text-primary">
+                  {cart.totalPrice} FCFA
+                </p>
               </div>
             </CardContent>
 
@@ -170,7 +178,7 @@ const PlaceOrderScreen = () => {
 
             <CardFooter>
               <Button
-                variant="outline"
+                className="rounded-full"
                 onClick={() => {
                   handlePlaceOrder();
                 }}

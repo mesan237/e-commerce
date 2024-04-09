@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Heart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 
 import {
   Card,
@@ -35,6 +35,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { BreadcrumbDemo } from "@/components/Breadcrumb";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { setPath } from "@/slices/urlPath.slice";
+import { useEffect } from "react";
 
 const ProductScreen = () => {
   const { productId } = useParams();
@@ -50,6 +52,7 @@ const ProductScreen = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -62,6 +65,10 @@ const ProductScreen = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate("/cart");
   };
+
+  useEffect(() => {
+    dispatch(setPath(location.pathname));
+  }, [dispatch, location]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -100,128 +107,154 @@ const ProductScreen = () => {
       {isLoading && <Spinner> Loading...</Spinner>}
 
       {product && (
-        <div className="flex gap-8 justify-center items-start relative mt-8">
-          <div className="w-1/2 flex-1">
-            <img className="min-w-72 max-w-md mx-auto" src={product.image} />
-            <div className="mt-10 px-10">
-              <p className="h2 py-6">Overview</p>
-              <div className="flex-1">{product.description}</div>
+        <>
+          <div className="flex gap-8 justify-center items-start relative mt-8">
+            <div className="w-1/2 flex-1">
+              <img className="min-w-72 max-w-md mx-auto" src={product.image} />
+              <div className="mt-10 px-10">
+                <p className="h2 py-6">Overview</p>
+                <div className="flex-1">{product.description}</div>
+              </div>
+            </div>
+
+            <div className=" flex-1">
+              <Card className="h-fit w-[calc(50vw-9rem)] block  fixed top-30">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="mx-auto">{product.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-row items-center justify-between">
+                  <p className="">Price: </p>
+                  <p className="">{product.price} FCFA</p>
+                </CardContent>
+                <Separator className="my-2" />
+                <CardContent className="flex flex-row items-center justify-between">
+                  <p className="">Reviews: </p>
+                  <div className="flex gap-1">
+                    <Rating rating={product.rating} />({product.numReviews})
+                  </div>
+                </CardContent>
+                <Separator className="my-2" />
+                <CardContent className="flex justify-between">
+                  <p>Status :</p>
+                  {product.countInStock > 0 ? (
+                    <Badge variant="succes">In stock</Badge>
+                  ) : (
+                    <Badge variant="wrong">out of stock</Badge>
+                  )}
+                </CardContent>
+
+                <Separator className="my-2" />
+
+                <CardContent className="flex justify-between items-baseline">
+                  <p>Quantity :</p>
+                  <Select value={qty} onValueChange={setQty}>
+                    <SelectTrigger className="w-[100px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[...Array(product.countInStock).keys()].map((index) => (
+                        <SelectItem value={index + 1} key={index}>
+                          {index + 1}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </CardContent>
+
+                <Separator className="my-2" />
+                <CardFooter className="flex gap-4">
+                  <Button
+                    disabled={!product.countInStock}
+                    onClick={handleCart}
+                    className="rounded-full gap-2"
+                  >
+                    <ShoppingCart className="text-white size-4" />
+                    Add To Cart
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {}}
+                    className="gap-2 text-primary rounded-full border-primary"
+                  >
+                    <Heart className="size-4 " />
+                    Add To Wishlist
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
           </div>
+          <div className="mt-10 px-10 w-1/2 space-y-5">
+            <h2 className="h2 mb-6">Reviews</h2>
+            {product?.reviews?.length === 0 && (
+              <Alert>
+                <AlertDescription>No Reviews</AlertDescription>
+              </Alert>
+            )}
 
-          <div className=" flex-1">
-            <Card className="h-fit w-[calc(50vw-9rem)] block  fixed top-30">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="mx-auto">{product.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-row items-center justify-between">
-                <p className="">Price: </p>
-                <p className="">{product.price} FCFA</p>
-              </CardContent>
-              <Separator className="my-2" />
-              <CardContent className="flex flex-row items-center justify-between">
-                <p className="">Reviews: </p>
-                <p className="">{product.numReviews}</p>
-              </CardContent>
-              <Separator className="my-2" />
-              <CardContent className="flex justify-between">
-                <p>Status :</p>
-                {product.countInStock > 0 ? (
-                  <Badge variant="succes">In stock</Badge>
-                ) : (
-                  <Badge variant="wrong">out of stock</Badge>
-                )}
-              </CardContent>
+            {product?.reviews?.map((review) => (
+              <>
+                <div key={review._id} className="space-y-2">
+                  <div>
+                    <strong>{review.name}</strong>
+                    <p className="text-accent-foreground text-sm">
+                      {review.createdAt.substring(0, 10)}
+                    </p>
+                  </div>
+                  <Rating rating={review.rating} />
+                  <p>{review.comment}</p>
+                </div>
+                <Separator />
+              </>
+            ))}
 
-              <Separator className="my-2" />
+            <p>Write a review</p>
 
-              <CardContent className="flex justify-between items-baseline">
-                <p>Quantity :</p>
-                <Select value={qty} onValueChange={setQty}>
-                  <SelectTrigger className="w-[100px]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[...Array(product.countInStock).keys()].map((index) => (
-                      <SelectItem value={index + 1} key={index}>
-                        {index + 1}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </CardContent>
+            {userInfo ? (
+              <form onSubmit={submitHandler}>
+                <div className="my-2">
+                  <p>Rating</p>
+                  <Select value={rating} onValueChange={setRating}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">1 - Poor</SelectItem>
+                      <SelectItem value="2">2 - Fair</SelectItem>
+                      <SelectItem value="3">3 - Good</SelectItem>
+                      <SelectItem value="4">4 - Very Good</SelectItem>
+                      <SelectItem value="5">5 - Excellent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Label htmlFor="comment" className="text-right">
+                    Comment
+                  </Label>
 
-              <Separator className="my-2" />
-              <CardFooter className="flex gap-4">
-                <Button disabled={!product.countInStock} onClick={handleCart}>
-                  Add To Cart
+                  <Textarea
+                    placeholder="Type your comment."
+                    id="comment"
+                    className=""
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                </div>
+
+                <Button disabled={loadingReview} type="submit">
+                  Submit
                 </Button>
-                <Button variant="outline" onClick={() => {}} className="gap-2">
-                  <Heart className="size-4" />
-                  Add To Wishlist
-                </Button>
-              </CardFooter>
-            </Card>
+              </form>
+            ) : (
+              <Alert>
+                <AlertDescription>
+                  Please
+                  <Button variant="link" className="px-1">
+                    <Link to="/login">sign in</Link>
+                  </Button>
+                  to write a review
+                </AlertDescription>
+              </Alert>
+            )}
           </div>
-        </div>
+        </>
       )}
-      <div className="mt-10 px-10 w-1/2">
-        <p className="h2 py-6">Reviews</p>
-
-        <h2>Reviews</h2>
-        {product.reviews.length === 0 && <p>No Reviews</p>}
-
-        {product.reviews.map((review) => (
-          <div key={review._id}>
-            <strong>{review.name}</strong>
-            <Rating value={review.rating} />
-            <p>{review.createdAt.substring(0, 10)}</p>
-            <p>{review.comment}</p>
-          </div>
-        ))}
-
-        <p>Write a review</p>
-
-        {userInfo ? (
-          <form onSubmit={submitHandler}>
-            <div className="my-2">
-              <p>Rating</p>
-              <Select value={rating} onValueChange={setRating}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1 - Poor</SelectItem>
-                  <SelectItem value="2">2 - Fair</SelectItem>
-                  <SelectItem value="3">3 - Good</SelectItem>
-                  <SelectItem value="4">4 - Very Good</SelectItem>
-                  <SelectItem value="5">5 - Excellent</SelectItem>
-                </SelectContent>
-              </Select>
-              <Label htmlFor="comment" className="text-right">
-                Comment
-              </Label>
-
-              <Textarea
-                placeholder="Type your comment."
-                id="comment"
-                className=""
-                onChange={(e) => setComment(e.target.value)}
-              />
-            </div>
-
-            <Button disabled={loadingReview} type="submit">
-              Submit
-            </Button>
-          </form>
-        ) : (
-          <Alert variant="warning">
-            <AlertDescription>
-              Please <Link to="/login">sign in</Link> to write a review
-            </AlertDescription>
-          </Alert>
-        )}
-      </div>
     </>
   );
 };
