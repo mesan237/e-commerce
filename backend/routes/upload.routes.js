@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
     } else {
       path = "frontend/public/uploads/";
     }
-    cb(null, "frontend/dist/uploads/");
+    cb(null, path);
   },
 
   filename(req, file, cb) {

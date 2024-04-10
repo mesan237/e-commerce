@@ -21,8 +21,8 @@ const Home = () => {
 
   return (
     <>
-      {keyword && <BackButton link="/" />}
       <Hero />
+      <div className="my-8">{keyword && <BackButton link="/" />}</div>
 
       <p className="mb-4 font-bold h3">Recent products</p>
       <div className="grid lg:grid-cols-4 grid-cols-1 sm:grid-cols-2  gap-10">

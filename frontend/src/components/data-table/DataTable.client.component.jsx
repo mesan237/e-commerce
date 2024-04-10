@@ -194,7 +194,7 @@ export function DataTable({ columns, data }) {
         </ScrollArea>
 
         <div className="flex items-center justify-end space-x-2 py-4">
-          <Pagination>
+          {/* <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
@@ -217,7 +217,7 @@ export function DataTable({ columns, data }) {
                 />
               </PaginationItem>
             </PaginationContent>
-          </Pagination>
+          </Pagination> */}
           <Button
             variant="outline"
             size="sm"
